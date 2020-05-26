@@ -1,0 +1,77 @@
+/* CSS files add styling rules to your content */
+
+html, body{
+      overflow-x: hidden;
+}
+
+/* body {
+  font-family: helvetica, arial, sans-serif;
+  margin: .5em;
+} */
+
+.chart-css{
+  width:420px;
+  height:320px
+}
+
+.container{
+      display: block;
+    margin: auto;
+    max-width:950px;
+}
+.row{
+  width:100%;
+  display:block;
+  clear: both;
+}
+
+.row .col-50{
+  width: 49.5%;
+    display: inline-block;    
+    float: left;  
+}
+.title-chart { font-size: 17px; font-weight: bold; text-align:center}
+
+.chart-css .bb-target-Máximo .bb-area-Máximo {
+  fill: #d8372b4a !important;
+}
+
+.chart-css .bb-target-Mínimo .bb-area-Mínimo {
+  fill:white !important;
+  opacity:1 !important;
+}
+
+.bb-axis-y{
+  transform: translate(5px,0px) !important
+}
+
+.bb-ygrid-line text{
+  fill: #000
+}
+
+.bb-grid line{
+  stroke: #46f531;
+    stroke-width: 2px;
+    stroke-dasharray: 2;
+}
+
+.text-row{
+      max-width: 600px;
+    margin-top: 2em;
+    margin-bottom: .5em;
+}
+
+.text-row p{
+  margin: .5em;
+  font-size: 14px;
+}
+@media (max-width: 600px) {
+  .chart-css{
+  width:370px;
+}
+  .row .col-50{
+  width: 100%;
+    display:block;    
+    float: none;  
+}
+}

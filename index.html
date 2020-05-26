@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/billboard.js/dist/billboard.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/billboard.js/dist/billboard.min.css"
+    />
+    <title>Hello!</title>
+
+    <!-- import the webpage's stylesheet -->
+    <style>
+      /* CSS files add styling rules to your content */
+
+      html,
+      body {
+        overflow-x: hidden;
+      }
+
+      /* body {
+  font-family: helvetica, arial, sans-serif;
+  margin: .5em;
+} */
+
+      .chart-css {
+        width: 420px;
+        height: 320px;
+      }
+
+      .container {
+        display: block;
+        margin: auto;
+        max-width: 950px;
+      }
+      .row {
+        width: 100%;
+        display: block;
+        clear: both;
+      }
+
+      .row .col-50 {
+        width: 49.5%;
+        display: inline-block;
+        float: left;
+      }
+      .title-chart {
+        font-size: 17px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .chart-css .bb-target-Máximo .bb-area-Máximo {
+        fill: #d8372b4a !important;
+      }
+
+      .chart-css .bb-target-Mínimo .bb-area-Mínimo {
+        fill: white !important;
+        opacity: 1 !important;
+      }
+
+      .bb-axis-y {
+        transform: translate(5px, 0px) !important;
+      }
+
+      .bb-ygrid-line text {
+        fill: #000;
+      }
+
+      .bb-grid line {
+        stroke: #46f531;
+        stroke-width: 2px;
+        stroke-dasharray: 2;
+      }
+
+      .text-row {
+        max-width: 600px;
+        margin-top: 2em;
+        margin-bottom: 1em;
+      }
+      h1.title-all {
+        font-size: 27px;
+        text-align: center;
+      }
+
+      .text-row p {
+        margin: 0.2em 0.5em 1em 0.5em;
+        font-size: 16px;
+      }
+      .credits-row p {
+        font-size: 14px;
+      }
+      @media (max-width: 600px) {
+        .chart-css {
+          width: 360px;
+        }
+        .row .col-50 {
+          width: 100%;
+          display: block;
+          float: none;
+        }
+      }
+    </style>
+
+    <!-- import the webpage's javascript file -->
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title-all">
+        Tasa de contagio de COVID-19 por departamento en Perú
+      </h1>
+      <div class="row text-row">
+        <p>
+          El modelo* de R (número de reproducción efectivo) se interpreta de la
+          manera siguiente: A la fecha correspondiente, cada persona con
+          coronavirus (sintomático o asintomático) tiene la probabilidad de
+          contagiar a [# de R] personas diarias.
+        </p>
+        <p>
+          La efectividad de las políticas públicas y las medidas de prevención
+          ciudadana se ven reflejadas en la variación diaria. La pandemia se
+          reduce y se controla siempre que se logre mantener el valor de R menor
+          a 1.
+        </p>
+        <p>
+          Para más información puede leer este
+          <a
+            href="https://medium.com/@rburhum/el-martillazo-y-el-huayno-278716f49938"
+            target="_blank"
+            >informe</a
+          >
+        </p>
+      </div>
+      <div class="row">
+        <div class="col-50">
+          <p class="title-chart">Amazonas: 1.53</p>
+
+          <div class="chart-css" id="ChartAMA">&nbsp;</div>
+        </div>
+
+        <div class="col-50">
+          <p class="title-chart">Ancash: 1.39</p>
+
+          <div class="chart-css" id="ChartANC">&nbsp;</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-50">
+          <p class="title-chart">Apurimac: 1.64</p>
+
+          <div class="chart-css" id="ChartAPU">&nbsp;</div>
+        </div>
+
+        <div class="col-50">
+          <p class="title-chart">Arequipa: 1.39</p>
+
+          <div class="chart-css" id="ChartARE">&nbsp;</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-50">
+          <p class="title-chart">Ayacucho: 1.32</p>
+
+          <div class="chart-css" id="ChartAYA">&nbsp;</div>
+        </div>
+
+        <div class="col-50">
+          <p class="title-chart">Cajamarca: 1.4</p>
+
+          <div class="chart-css" id="ChartCAJ">&nbsp;</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-50">
+          <p class="title-chart">Callao: 1.26</p>
+
+          <div class="chart-css" id="ChartCAL">&nbsp;</div>
+        </div>
+
+        <div class="col-50">
+          <p class="title-chart">Cusco: 1.65</p>
+
+          <div class="chart-css" id="ChartCUS">&nbsp;</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-50">
+          <p class="title-chart">Huánuco: 1.55</p>
+
+          <div class="chart-css" id="ChartHUC">&nbsp;</div>
+        </div>
+
+        <div class="col-50">
+          <p class="title-chart">Huancavelica: 1.54</p>
+
+          <div class="chart-css" id="ChartHUV">&nbsp;</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-50">
+          <p class="title-chart">Ica: 1.34</p>
+
+          <div class="chart-css" id="ChartICA">&nbsp;</div>
+        </div>
+
+        <div class="col-50">
+          <p class="title-chart">Junín: 1.3</p>
+
+          <div class="chart-css" id="ChartJUN">&nbsp;</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-50">
+          <p class="title-chart">La Libertad: 1.31</p>
+
+          <div class="chart-css" id="ChartLAL">&nbsp;</div>
+        </div>
+
+        <div class="col-50">
+          <p class="title-chart">Lambayeque: 1.2</p>
+
+          <div class="chart-css" id="ChartLAM">&nbsp;</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-50">
+          <p class="title-chart">Lima: 0.87</p>
+
+          <div class="chart-css" id="ChartLIM">&nbsp;</div>
+        </div>
+
+        <div class="col-50">
+          <p class="title-chart">Loreto: 1.54</p>
+
+          <div class="chart-css" id="ChartLOR">&nbsp;</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-50">
+          <p class="title-chart">Madre de Dios: 1.71</p>
+
+          <div class="chart-css" id="ChartMDD">&nbsp;</div>
+        </div>
+
+        <div class="col-50">
+          <p class="title-chart">Moquegua: 1.59</p>
+
+          <div class="chart-css" id="ChartMOQ">&nbsp;</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-50">
+          <p class="title-chart">Pasco: 1.56</p>
+
+          <div class="chart-css" id="ChartPAS">&nbsp;</div>
+        </div>
+
+        <div class="col-50">
+          <p class="title-chart">Piura: 1.14</p>
+
+          <div class="chart-css" id="ChartPIU">&nbsp;</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-50">
+          <p class="title-chart">Puno: 1.47</p>
+
+          <div class="chart-css" id="ChartPUN">&nbsp;</div>
+        </div>
+
+        <div class="col-50">
+          <p class="title-chart">San Martín: 1.36</p>
+
+          <div class="chart-css" id="ChartSAM">&nbsp;</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-50">
+          <p class="title-chart">Tacna: 1.48</p>
+
+          <div class="chart-css" id="ChartTAC">&nbsp;</div>
+        </div>
+
+        <div class="col-50">
+          <p class="title-chart">Tumbes: 1.74</p>
+
+          <div class="chart-css" id="ChartTUM">&nbsp;</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-50">
+          <p class="title-chart">Ucayali: 1.14</p>
+
+          <div class="chart-css" id="ChartUCA">&nbsp;</div>
+        </div>
+      </div>
+      <div class="row credits-row">
+        <p>
+          *Modelo liberado por:
+          <a href="https://twitter.com/rburhum" target="_blank">Ragi Burhum</a>
+        </p>
+        <p>
+          Visualizaciones por:
+          <a href="https://twitter.com/geny_leong" target="_blank"
+            >Génesis León</a
+          >
+        </p>
+        <!-- <span><strong>Redactor:</strong> Campo Opcional</span>-->
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-1.10.2.min.js"
+      integrity="sha256-C6CB9UYIS9UJeqinPHWTHVqh/E1uhG5Twh+Y5qFQmYg="
+      crossorigin="anonymous"
+    ></script>
+    <script defer>
+      var DataFunction = function(file_path, chart_instance) {
+        "use strict";
+
+        var exports = {};
+        var global = {};
+        var events = {};
+        /**
+         * Component initializer
+         * @param {string} file_path - JSON file path
+         */
+        exports.init = function() {
+          if (file_path === undefined) {
+            console.log("undefined");
+            return false;
+          }
+          console.log(file_path, chart_instance);
+          //events.chart(file_path)
+          //console.log("undefined")
+          events.loadData(file_path, function(data) {
+            //console.log(file_path, data);
+            if (data !== "error") {
+              //global.data = data;
+              //console.log(data);
+              //d3.csv(file_path).then(d => events.chart(d));
+              events.chart(data);
+            }
+          });
+        };
+
+        events.chart = function(data) {
+          var chart = bb.generate({
+            // title: {
+            //   text: "Amazonas: 1.81"
+            // },
+            data: {
+              x: "date",
+              url: file_path,
+              types: {
+                Mínimo: "area-spline",
+                Máximo: "area-spline"
+              },
+              colors: {
+                Mínimo: "#f44336",
+                Máximo: "#f44336",
+                R: "#a7170c"
+              }
+            },
+            line: { point: ["R"] },
+            tooltip: {
+              show: true
+            },
+            axis: {
+              x: {
+                type: "timeseries",
+                tick: {
+                  format: "%d-%m-%y",
+                  values: [
+                    "2020-04-01",
+                    "2020-04-08",
+                    "2020-04-13",
+                    "2020-04-18",
+                    "2020-04-23",
+                    "2020-04-28",
+                    "2020-05-03",
+                    "2020-05-08",
+                    "2020-05-13",
+                    "2020-05-18",
+                    "2020-05-23"
+                  ]
+                }
+              }
+            },
+            legend: {
+              hide: true
+            },
+            onafterinit: function() {
+              d3.selectAll(".bb-ygrid-line text").each(function() {
+                var text = d3.select(this);
+                console.log(text.attr("y"));
+                text.attr("y", 260);
+              });
+            },
+            bindto: "#" + chart_instance
+          });
+
+          chart.ygrids.add([{ value: 1, text: "R esperado < 1" }]);
+        };
+
+        events.loadData = function(file_path, fn) {
+          //console.log(file_path)
+          $.ajax({
+            method: "GET",
+            dataType: "text",
+            url: file_path
+          })
+            .done(function(data) {
+              //console.log("funciono")
+              fn(data);
+            })
+            .error(function(err) {
+              console.log("error");
+              fn("error");
+            });
+        };
+
+        return exports;
+      };
+    </script>
+    <script>
+      $(function() {
+        var App = {};
+
+        App.peru_cases = new DataFunction(
+          "https://rt-region-peru.glitch.me/final_results_ama.csv",
+          "ChartAMA"
+        );
+        App.peru_cases.init();
+
+        App.peru_cases = new DataFunction(
+          "https://rt-region-peru.glitch.me/final_results_anc.csv",
+          "ChartANC"
+        );
+        App.peru_cases.init();
+
+        setTimeout(function() {
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_apu.csv",
+            "ChartAPU"
+          );
+          App.peru_cases.init();
+
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_are.csv",
+            "ChartARE"
+          );
+          App.peru_cases.init();
+        }, 300);
+
+        setTimeout(function() {
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_aya.csv",
+            "ChartAYA"
+          );
+          App.peru_cases.init();
+
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_caj.csv",
+            "ChartCAJ"
+          );
+          App.peru_cases.init();
+        }, 600);
+
+        setTimeout(function() {
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_cal.csv",
+            "ChartCAL"
+          );
+          App.peru_cases.init();
+
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_cus.csv",
+            "ChartCUS"
+          );
+          App.peru_cases.init();
+        }, 900);
+
+        setTimeout(function() {
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_huc.csv",
+            "ChartHUC"
+          );
+          App.peru_cases.init();
+
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_huv.csv",
+            "ChartHUV"
+          );
+          App.peru_cases.init();
+        }, 1200);
+
+        setTimeout(function() {
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_ica.csv",
+            "ChartICA"
+          );
+          App.peru_cases.init();
+
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_jun.csv",
+            "ChartJUN"
+          );
+          App.peru_cases.init();
+        }, 1500);
+
+        setTimeout(function() {
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_lal.csv",
+            "ChartLAL"
+          );
+          App.peru_cases.init();
+
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_lam.csv",
+            "ChartLAM"
+          );
+          App.peru_cases.init();
+        }, 1800);
+
+        setTimeout(function() {
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_lim.csv",
+            "ChartLIM"
+          );
+          App.peru_cases.init();
+
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_lor.csv",
+            "ChartLOR"
+          );
+          App.peru_cases.init();
+        }, 2100);
+
+        setTimeout(function() {
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_mdd.csv",
+            "ChartMDD"
+          );
+          App.peru_cases.init();
+
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_moq.csv",
+            "ChartMOQ"
+          );
+          App.peru_cases.init();
+        }, 2400);
+
+        setTimeout(function() {
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_pas.csv",
+            "ChartPAS"
+          );
+          App.peru_cases.init();
+
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_piu.csv",
+            "ChartPIU"
+          );
+          App.peru_cases.init();
+        }, 2700);
+
+        setTimeout(function() {
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_pun.csv",
+            "ChartPUN"
+          );
+          App.peru_cases.init();
+
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_sam.csv",
+            "ChartSAM"
+          );
+          App.peru_cases.init();
+        }, 3000);
+
+        setTimeout(function() {
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_tac.csv",
+            "ChartTAC"
+          );
+          App.peru_cases.init();
+
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_tum.csv",
+            "ChartTUM"
+          );
+          App.peru_cases.init();
+        }, 3300);
+
+        setTimeout(function() {
+          App.peru_cases = new DataFunction(
+            "https://rt-region-peru.glitch.me/final_results_uca.csv",
+            "ChartUCA"
+          );
+          App.peru_cases.init();
+        }, 3600);
+      });
+    </script>
+  </body>
+</html>
